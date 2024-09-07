@@ -6,3 +6,4 @@ class Node:
         self.data = data
         self.left: Optional["Node"] = None
         self.right: Optional["Node"] = None
+        self.balanceFactor: Optional[int] = None

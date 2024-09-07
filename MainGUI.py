@@ -1,147 +1,172 @@
 import tkinter as tk
 from tkinter import ttk
 
+class startFrame(tk.Frame):
+    def __init__(self, parent):
+        super().__init__(self,parent)
+
+        parent.indicate(parent.startLb)
+        lb = tk.Label(self, text="Main Title", font=("Helvetica", 67, "bold"), bg="#0BB6E0")
+        lb.pack()
+        startFrame.pack(pady=20)
+
+class showFrame(tk.Frame):
+    def __init__(self, parent):
+        super().__init__(self, parent)
+
+        parent.indicate(parent.showLb)
+        lb = tk.Label(self, text="Mostrar", font=("Helvetica", 67, "bold"), bg="#0BB6E0")
+        lb.pack()
+        showFrame.pack(pady=20)
+
+class insertFrame(tk.Frame):
+    def __init__(self, parent):
+        super().__init__(self, parent)
+
+        parent.indicate(parent.insertLb)
+        lb = tk.Label(self, text="Insertar", font=("Helvetica", 67, "bold"), bg="#0BB6E0")
+        lb.pack()
+        insertFrame.pack(pady=20)
+
+class deleteFrame(tk.Frame):
+    def __init__(self, parent ):
+        super().__init__(self, parent)
+
+        parent.indicate(parent.deleteLb)
+        lb = tk.Label(self, text = "Eliminar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
+        lb.pack()
+        deleteFrame.pack(pady=20)
+
+class searchFrame(tk.Frame):
+    def __init__(self, parent):
+        super().__init__(self,parent)
+
+        lb = tk.Label(self, text="Buscar", font=("Helvetica", 100, "bold"), bg="#0BB6E0")
+        lb.pack(fill="both", pady=60)
+
+        textBox = tk.Text(self, font=("Arial", 20), height=3, insertbackground="#0BB6E0", wrap=tk.WORD)
+        textBox.pack(pady=80)
+
+        rdVar = tk.IntVar
+        rdBut1 = tk.Radiobutton(self, variable=rdVar, text="Buscar en el árbol", font=("Times New Roman", 25),
+                                borderwidth=20, value=0, command=self.showMessage)
+        rdBut2 = tk.Radiobutton(self, variable=rdVar, text="Buscar en cartelera", font=("Times New Roman", 25),
+                                borderwidth=20, value=1, command=lambda: self.showMessage(textBox.get()))
+        rdBut1.pack(pady=10)
+        rdBut2.pack(pady=10)
+        button = tk.Button(self, text="Buscar Película", relief="raised", font=("Times New Roman", 40))
+        button.pack(pady=30)
+
+    def showMessage(self, p):
+        print (p)
+        pass
+
+class infoFrame(tk.Frame):
+    def __init__(self,parent):
+        super().__init__(self,parent)
+
+        parent.indicate(parent.startLb, self)
+        lb = tk.Label(self, text = "¡Conócenos!", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
+        lb.pack()
+        infoFrame.pack(pady=20)
+
+
 
 class MainGUI:
     def __init__(self):
 
-        self.gui = tk.Tk()
-        self.gui.geometry("1500x1000")
-        self.gui.title("EN PROCESO")
 
-        self.optionFrame = tk.Frame(self.gui, bg="#0772D6")
-        self.optionFrame.pack(side=tk.LEFT)
-        self.optionFrame.pack_propagate(False)
-        self.optionFrame.configure(width=200, height=1000)
+        gui = tk.Tk()
+        gui.geometry("1500x1000")
+        gui.title("EN PROCESO")
 
-        self.mainFrame = tk.Frame(self.gui, bg="#0BB6E0", highlightbackground="black", highlightthickness=2)
-        self.mainFrame.pack(fill=tk.BOTH, expand=True)
+        optionFrame = tk.Frame(gui, bg="#0772D6")
+        optionFrame.pack(side=tk.LEFT)
+        optionFrame.pack_propagate(False)
+        optionFrame.configure(width=200, height=1000)
 
-        self.startBt = tk.Button(self.optionFrame, text = "Inicio", font = ("Bold", 20), fg = "black", bd = 0, bg = "#0772D6", command = self.startFrame)
-        self.startBt.place(x = 45 , y = 40)
-        self.startLb = tk.Label(self.optionFrame, text = "", bg = "#DEE9F3")
-        self.startLb.place(x = 8, y = 35, width = 5, height = 65)
+        mainFrame = tk.Frame(gui, bg="#0BB6E0", highlightbackground="black", highlightthickness=2)
+        mainFrame.pack(fill=tk.BOTH, expand=True)
 
-        self.showBt = tk.Button(self.optionFrame, text = "Mostrar", font = ("Bold", 20), fg = "black", bd = 0, bg = "#0772D6", command = self.showFrame)
-        self.showBt.place(x = 45 , y = 180)
-        self.showLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
-        self.showLb.place(x = 8, y = 175, width = 5, height = 65)
+        self.frameList = [searchFrame(mainFrame), infoFrame(mainFrame)]
+        self.frameList[1].forget()
 
-        self.insertBt = tk.Button(self.optionFrame, text="Insertar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.insertFrame)
-        self.insertBt.place(x=45, y=320)
-        self.insertLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
-        self.insertLb.place(x = 8, y = 315, width = 5, height = 65)
+        startBt = tk.Button(optionFrame, text = "Inicio", font = ("Bold", 20), fg = "black", bd = 0, bg = "#0772D6", command = self.startFrame)
+        startBt.place(x = 45 , y = 40)
+        startLb = tk.Label(optionFrame, text = "", bg = "#DEE9F3")
+        startLb.place(x = 8, y = 35, width = 5, height = 65)
+
+        showBt = tk.Button(optionFrame, text = "Mostrar", font = ("Bold", 20), fg = "black", bd = 0, bg = "#0772D6", command = self.showFrame)
+        showBt.place(x = 45 , y = 180)
+        showLb = tk.Label(optionFrame, text = "", bg = "#0772D6")
+        showLb.place(x = 8, y = 175, width = 5, height = 65)
+
+        insertBt = tk.Button(optionFrame, text="Insertar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.insertFrame)
+        insertBt.place(x=45, y=320)
+        insertLb = tk.Label(optionFrame, text = "", bg = "#0772D6")
+        insertLb.place(x = 8, y = 315, width = 5, height = 65)
 
 
-        self.deleteBt = tk.Button(self.optionFrame, text="Eliminar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.deleteFrame)
-        self.deleteBt.place(x=45, y=460)
-        self.deleteLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
-        self.deleteLb.place(x = 8, y = 455, width = 5, height = 65)
+        deleteBt = tk.Button(optionFrame, text="Eliminar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.deleteFrame)
+        deleteBt.place(x=45, y=460)
+        deleteLb = tk.Label(optionFrame, text = "", bg = "#0772D6")
+        deleteLb.place(x = 8, y = 455, width = 5, height = 65)
 
-        self.searchBt = tk.Button(self.optionFrame, text="Buscar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.searchFrame)
-        self.searchBt.place(x=45, y=600)
-        self.searchLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
-        self.searchLb.place(x = 8, y = 595, width = 5, height = 65)
+        searchBt = tk.Button(optionFrame, text="Buscar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.searchFrame)
+        searchBt.place(x=45, y=600)
+        searchLb = tk.Label(optionFrame, text = "", bg = "#0772D6")
+        searchLb.place(x = 8, y = 595, width = 5, height = 65)
 
-        self.infoBt = tk.Button(self.optionFrame, text="¡Conócenos!", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.infoFrame)
-        self.infoBt.place(x=20, y=740)
-        self.infoLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
-        self.infoLb.place(x = 8, y = 735, width = 5, height = 65)
+        infoBt = tk.Button(optionFrame, text="¡Conócenos!", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.infoFrame)
+        infoBt.place(x=20, y=740)
+        infoLb = tk.Label(optionFrame, text = "", bg = "#0772D6")
+        infoLb.place(x = 8, y = 735, width = 5, height = 65)
 
-        self.closeBt = tk.Button(self.optionFrame, text="Cerrar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.close )
-        self.closeBt.place(x=45, y=880)
-        self.closeLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
-        self.closeLb.place(x = 8, y = 875, width = 5, height = 65)
+        closeBt = tk.Button(optionFrame, text="Cerrar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.close )
+        closeBt.place(x=45, y=880)
+        closeLb = tk.Label(optionFrame, text = "", bg = "#0772D6")
+        closeLb.place(x = 8, y = 875, width = 5, height = 65)
 
         self.startFrame()
-        self.gui.mainloop()
+        gui.mainloop()
 
     def close(self):
         self.indicate(self.closeLb)
         self.gui.destroy()
 
     def hideIndicate(self):
-        self.startLb.config(bg="#0772D6")
-        self.showLb.config(bg="#0772D6")
-        self.insertLb.config(bg="#0772D6")
-        self.deleteLb.config(bg="#0772D6")
-        self.searchLb.config(bg="#0772D6")
-        self.infoLb.config(bg = "#0772D6")
-        self.closeLb.config(bg="#0772D6")
+        startLb.config(bg="#0772D6")
+        showLb.config(bg="#0772D6")
+        insertLb.config(bg="#0772D6")
+        deleteLb.config(bg="#0772D6")
+        searchLb.config(bg="#0772D6")
+        infoLb.config(bg = "#0772D6")
+        closeLb.config(bg="#0772D6")
 
-    def indicate(self, lb):
+    def indicate(self, lb, frame):
         self.hideIndicate()
         lb.config(bg = "#DEE9F3")
+        frame.tkraise()
 
-    def deleteFrames(self):
-        for frame in self.mainFrame.winfo_children():
-            frame.destroy()
 
+    def searchFrame(self):
+        pass
 
 
     def startFrame(self):
-        self.deleteFrames()
-        self.indicate(self.startLb)
-        startFrame = tk.Frame(self.mainFrame)
-        lb = tk.Label(startFrame, text = "Main Title",font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
-        startFrame.pack(pady=20)
+        pass
 
     def showFrame(self):
-        self.deleteFrames()
-        self.indicate(self.showLb)
-        showFrame = tk.Frame(self.mainFrame)
-        lb = tk.Label(showFrame, text = "Mostrar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
-        showFrame.pack(pady=20)
+        pass
 
     def insertFrame(self):
-        self.deleteFrames()
-        self.indicate(self.insertLb)
-        insertFrame = tk.Frame(self.mainFrame)
-        lb = tk.Label( insertFrame, text = "Insertar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
-        insertFrame.pack(pady=20)
+        pass
 
     def deleteFrame(self):
-        self.deleteFrames()
-        self.indicate(self.deleteLb)
-        deleteFrame = tk.Frame(self.mainFrame)
-        lb = tk.Label(deleteFrame, text = "Eliminar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
-        deleteFrame.pack(pady=20)
-
-    def searchFrame(self):
-        self.deleteFrames()
-        self.indicate(self.searchLb)
-        searchFrame = tk.Frame(self.mainFrame, bg = "#0BB6E0")
-        searchFrame.pack()
-
-        lb = tk.Label(searchFrame, text = "Buscar", font = ("Helvetica",100, "bold"), bg = "#0BB6E0")
-        lb.pack(fill="both", pady = 60)
-
-        textBox = tk.Text(searchFrame, font = ("Arial", 20),  height = 3, insertbackground="#0BB6E0", wrap=tk.WORD)
-        textBox.pack(pady = 80)
-
-        rdVar = tk.IntVar
-        rdBut1 = tk.Radiobutton(searchFrame, variable = "rdVar", text = "Buscar en el árbol", font = ("Times New Roman", 25), borderwidth= 20, value = 0)
-        rdBut2 = tk.Radiobutton(searchFrame, variable= "rdVar", text="Buscar en cartelera", font=("Times New Roman", 25), borderwidth= 20, value = 1)
-        rdBut1.pack(pady = 10)
-        rdBut2.pack(pady=10)
-
-        button = tk.Button(searchFrame, text = "Buscar Película", relief="raised", font = ("Times New Roman", 40))
-        button.pack(pady = 30)
-
+        pass
 
     def infoFrame(self):
-        self.deleteFrames()
-        self.indicate(self.infoLb)
-        infoFrame = tk.Frame(self.mainFrame)
-        lb = tk.Label(self.mainFrame, text = "¡Conócenos!", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
-        infoFrame.pack(pady=20)
-
-
+        pass
 
 
 
