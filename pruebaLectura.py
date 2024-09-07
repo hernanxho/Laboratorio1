@@ -18,15 +18,11 @@ boton.place(x=300,y=300)
 df = pd.read_csv("./data/dataset_movies.csv")
 
 
-
-
-
 def encontrar(pelicula):
  encontrado = False
  for index, row in df.iterrows():
     title = row['Title']
-    if(pelicula==title):
-     pelicula =title
+    if(pelicula.lower()==title.lower()):
      print("Pelicula Encontrada " + title)
      encontrado = True
  if(encontrado== False):
