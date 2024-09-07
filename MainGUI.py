@@ -1,5 +1,8 @@
+import Lectura as le
 import tkinter as tk
 from tkinter import ttk
+import BinaryTree as bt
+import PruebaArbol as pb
 
 
 class MainGUI:
@@ -68,6 +71,7 @@ class MainGUI:
         self.searchLb.config(bg="#0772D6")
         self.infoLb.config(bg = "#0772D6")
         self.closeLb.config(bg="#0772D6")
+        
 
     def indicate(self, lb):
         self.hideIndicate()
@@ -82,7 +86,7 @@ class MainGUI:
     def startFrame(self):
         self.deleteFrames()
         self.indicate(self.startLb)
-        startFrame = tk.Frame(self.mainFrame)
+        startFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
         lb = tk.Label(startFrame, text = "Main Title",font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
         lb.pack()
         startFrame.pack(pady=20)
@@ -90,26 +94,35 @@ class MainGUI:
     def showFrame(self):
         self.deleteFrames()
         self.indicate(self.showLb)
-        showFrame = tk.Frame(self.mainFrame)
+        showFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
         lb = tk.Label(showFrame, text = "Mostrar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
         lb.pack()
         showFrame.pack(pady=20)
+    
+    def deleteFrame(self):
+        self.deleteFrames()
+        self.indicate(self.deleteLb)
+        deleteFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
+        lb = tk.Label(deleteFrame, text = "Eliminar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
+        lb.pack()
+        deleteFrame.pack(pady=20)
+
 
     def insertFrame(self):
         self.deleteFrames()
         self.indicate(self.insertLb)
-        insertFrame = tk.Frame(self.mainFrame)
-        lb = tk.Label( insertFrame, text = "Insertar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
-        insertFrame.pack(pady=20)
+        insertFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
+        insertFrame.pack()
 
-    def deleteFrame(self):
-        self.deleteFrames()
-        self.indicate(self.deleteLb)
-        deleteFrame = tk.Frame(self.mainFrame)
-        lb = tk.Label(deleteFrame, text = "Eliminar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
-        deleteFrame.pack(pady=20)
+        lb = tk.Label( insertFrame, text = "Insertar", font = ("Helvetica",60, "bold"), bg = "#0BB6E0")
+        lb.pack(fill="both", pady = 60)
+
+        text = tk.Entry(insertFrame,width=30,font=("Arial",40))
+        text.pack(pady=80)
+
+        insert = tk.Button(insertFrame,  text = "Insertar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: pb.tree.insert(text.get()) and pb.printRoot(pb.tree.root))
+        insert.pack(pady=10)
+
 
     def searchFrame(self):
         self.deleteFrames()
@@ -120,23 +133,20 @@ class MainGUI:
         lb = tk.Label(searchFrame, text = "Buscar", font = ("Helvetica",100, "bold"), bg = "#0BB6E0")
         lb.pack(fill="both", pady = 60)
 
-        textBox = tk.Text(searchFrame, font = ("Arial", 20),  height = 3, insertbackground="#0BB6E0", wrap=tk.WORD)
+        textBox = tk.Entry(searchFrame,width=30,font=("Arial",40))
         textBox.pack(pady = 80)
 
-        rdVar = tk.IntVar
-        rdBut1 = tk.Radiobutton(searchFrame, variable = "rdVar", text = "Buscar en el árbol", font = ("Times New Roman", 25), borderwidth= 20, value = 0)
-        rdBut2 = tk.Radiobutton(searchFrame, variable= "rdVar", text="Buscar en cartelera", font=("Times New Roman", 25), borderwidth= 20, value = 1)
+        rdBut1 = tk.Button(searchFrame,  text = "Buscar en el árbol", font = ("Times New Roman", 25), borderwidth= 20)
+        rdBut2 = tk.Button(searchFrame,  text="Buscar en cartelera", font=("Times New Roman", 25), borderwidth= 20,command= lambda: le.encontrar(textBox.get()))
         rdBut1.pack(pady = 10)
         rdBut2.pack(pady=10)
 
-        button = tk.Button(searchFrame, text = "Buscar Película", relief="raised", font = ("Times New Roman", 40))
-        button.pack(pady = 30)
 
 
     def infoFrame(self):
         self.deleteFrames()
         self.indicate(self.infoLb)
-        infoFrame = tk.Frame(self.mainFrame)
+        infoFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
         lb = tk.Label(self.mainFrame, text = "¡Conócenos!", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
         lb.pack()
         infoFrame.pack(pady=20)

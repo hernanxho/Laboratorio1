@@ -1,4 +1,4 @@
-import  Node as Node
+from Node import *
 from typing import Any, Optional, Tuple
 
 class BinaryTree:
