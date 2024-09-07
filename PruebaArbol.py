@@ -4,5 +4,8 @@ from Node import Node
 tree=BinaryTree()
 
 def printRoot(node):
-  print(node.data)
+    if(node!=None):
+     print(node.data)
+     printRoot(node.left)
+     printRoot(node.right)
 

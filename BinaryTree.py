@@ -1,5 +1,6 @@
 from Node import *
 from typing import Any, Optional, Tuple
+import Lectura as le
 
 class BinaryTree:
 
@@ -20,11 +21,14 @@ class BinaryTree:
         print()
     
     def insert(self, data: Any) -> bool:
-        to_insert = Node(data)
-        if self.root is None:
-            self.root = to_insert
-            return True
-        else:
+     if(le.encontrar(data)!=True):
+         print("Definitivamente no encontrado")
+     else:
+         to_insert = Node(data)
+         if self.root is None:
+             self.root = to_insert
+             return True
+         else:
             p, pad = self.search(data)
             if p is not None:
                 return False
