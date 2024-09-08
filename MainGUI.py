@@ -1,5 +1,8 @@
+import Lectura as le
 import tkinter as tk
 from tkinter import ttk
+import BinaryTree as bt
+import PruebaArbol as pb
 
 class startFrame(tk.Frame):
     def __init__(self, parent):
@@ -135,13 +138,15 @@ class MainGUI:
         self.gui.destroy()
 
     def hideIndicate(self):
-        startLb.config(bg="#0772D6")
-        showLb.config(bg="#0772D6")
-        insertLb.config(bg="#0772D6")
-        deleteLb.config(bg="#0772D6")
-        searchLb.config(bg="#0772D6")
-        infoLb.config(bg = "#0772D6")
-        closeLb.config(bg="#0772D6")
+
+        self.startLb.config(bg="#0772D6")
+        self.showLb.config(bg="#0772D6")
+        self.insertLb.config(bg="#0772D6")
+        self.deleteLb.config(bg="#0772D6")
+        self.searchLb.config(bg="#0772D6")
+        self.infoLb.config(bg = "#0772D6")
+        self.closeLb.config(bg="#0772D6")
+
 
     def indicate(self, lb, frame):
         self.hideIndicate()
@@ -154,19 +159,82 @@ class MainGUI:
 
 
     def startFrame(self):
-        pass
+
+        self.deleteFrames()
+        self.indicate(self.startLb)
+        startFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
+        lb = tk.Label(startFrame, text = "Main Title",font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
+        lb.pack()
+        startFrame.pack(pady=20)
 
     def showFrame(self):
-        pass
+        self.deleteFrames()
+        self.indicate(self.showLb)
+        showFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
+        lb = tk.Label(showFrame, text = "Mostrar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
+        lb.pack()
+        showFrame.pack(pady=20)
+    
+    def deleteFrame(self):
+        self.deleteFrames()
+        self.indicate(self.deleteLb)
+        deleteFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
+        deleteFrame.pack()
+        lb = tk.Label(deleteFrame, text = "Eliminar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
+        lb.pack(pady=60)
+
+        texteliminar = tk.Entry(deleteFrame,width=30,font=("Arial",40))
+        texteliminar.pack(pady=80)
+
+        eliminar = tk.Button(deleteFrame, text="Eliminar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: pb.tree.delete(texteliminar.get(),False) and pb.printRoot(pb.tree.root))
+        eliminar.pack(pady=10)
+        
+
 
     def insertFrame(self):
-        pass
+        self.deleteFrames()
+        self.indicate(self.insertLb)
+        insertFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
+        insertFrame.pack()
 
-    def deleteFrame(self):
-        pass
+        lb = tk.Label( insertFrame, text = "Insertar", font = ("Helvetica",60, "bold"), bg = "#0BB6E0")
+        lb.pack(fill="both", pady = 60)
+
+        text = tk.Entry(insertFrame,width=30,font=("Arial",40))
+        text.pack(pady=80)
+
+        insert = tk.Button(insertFrame,  text = "Insertar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: pb.tree.insert(le.encontrar(text.get())) and pb.printRoot(pb.tree.root))
+        insert.pack(pady=10)
+
+
+    def searchFrame(self):
+        self.deleteFrames()
+        self.indicate(self.searchLb)
+        searchFrame = tk.Frame(self.mainFrame, bg = "#0BB6E0")
+        searchFrame.pack()
+
+        lb = tk.Label(searchFrame, text = "Buscar", font = ("Helvetica",100, "bold"), bg = "#0BB6E0")
+        lb.pack(fill="both", pady = 60)
+
+        textBox = tk.Entry(searchFrame,width=30,font=("Arial",40))
+        textBox.pack(pady = 80)
+
+        rdBut1 = tk.Button(searchFrame,  text = "Buscar en el árbol", font = ("Times New Roman", 25), borderwidth= 20)
+        rdBut2 = tk.Button(searchFrame,  text="Buscar en cartelera", font=("Times New Roman", 25), borderwidth= 20,command= lambda: le.encontrar(textBox.get()))
+        rdBut1.pack(pady = 10)
+        rdBut2.pack(pady=10)
+
+
 
     def infoFrame(self):
-        pass
+        self.deleteFrames()
+        self.indicate(self.infoLb)
+        infoFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
+        lb = tk.Label(self.mainFrame, text = "¡Conócenos!", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
+        lb.pack()
+        infoFrame.pack(pady=20)
+
+
 
 
 
