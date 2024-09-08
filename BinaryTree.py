@@ -1,9 +1,11 @@
-import  Node as Node
+from re import search
+
+from Node import *
 from typing import Any, Optional, Tuple
 
 class BinaryTree:
 
-    def __init__(self, root: Optional["Node.Node"] = None) -> None:
+    def __init__(self, root : Optional["Node"]  = None) -> None:
         self.root = root
 
     def levels_nr(self) -> None:
@@ -18,23 +20,33 @@ class BinaryTree:
             if p.right is not None:
                 q.append(p.right)
         print()
-    
-    def insert(self, data: Any) -> bool:
-        to_insert = Node(data)
-        if self.root is None:
-            self.root = to_insert
-            return True
+
+    def insert(self, node: Optional["Node"] , data: Any) -> "Node":
+        if node is None:
+            nuevoNodo = Node(data)
+            if self.root is None:
+                self.root = nuevoNodo
+
+            return nuevoNodo
+
+        if data < node.data:
+            node.left = self.insert(node.left, data)
+        elif data > node.data:
+            node.right = self.insert(node.right, data)
         else:
-            p, pad = self.search(data)
-            if p is not None:
-                return False
-            else:
-                if data < pad.data:
-                    pad.left = to_insert
-                else:
-                    pad.right = to_insert
-                    self.updateFactor(self.root)
-                return True
+            return node
+
+        self.updateFactor(node)
+        nodeBF = node.balanceFactor
+        if nodeBF < -1 and data < node.left.data:
+            return self.simpleRightRotation(node)
+        if nodeBF > 1 and data > node.right.data:
+            return self.simpleLeftRotation(node)
+        if nodeBF < -1 and data > node.left.data:
+            return self.doubleLeftRightRotation(node)
+        if nodeBF > 1 and data < node.right.data:
+            return self.doubleRightLeftRotation(node)
+
 
     def delete(self, data: Any, mode: bool = True) -> bool:
         p, pad = self.search(data)
@@ -166,7 +178,7 @@ class BinaryTree:
             return 0
         return 1 + max(self.__height_r(node.left), self.__height_r(node.right))
     
-    def search(self, data: Any) -> Tuple[Optional["Node.Node"], Optional["Node.Node"]]:
+    def search(self, data: Any) -> Tuple[Optional["Node"], Optional["Node"]]:
         p, pad = self.root, None
         while p is not None:
             if data == p.data:
@@ -181,9 +193,9 @@ class BinaryTree:
 
     def updateFactor(self, node):
         if node is not None:
-            node.balanceFactor = (self.height(node.right) - self.height(node.left))
-            self.updateFactor(node.left)
-            self.updateFactor(node.right)
+            node.balanceFactor = (node.height(node.right) - node.height(node.left))
+
+
 
     def simpleRightRotation(self, node:Node):
         aux = node.left
@@ -204,3 +216,26 @@ class BinaryTree:
     def doubleLeftRightRotation(self, node):
         node.left = self.simpleLeftRotation(node.left)
         return self.simpleRightRotation(node)
+
+    def uncle (self, node):
+        p,pad = self.search(node)
+        if pad is None:
+            return
+        pad, gf = self.search(pad.data)
+        if gf is None:
+            return None
+        if pad is gf.left:
+            return gf.right
+        else:
+            return gf.left
+
+    def grandfather(self,node):
+        p,pad = self.search(node)
+        if pad is None:
+            return
+        pad, gf = self.search(pad.data)
+        return gf
+
+    def father (self, node):
+        p,pad = self.search(node)
+        return pad
