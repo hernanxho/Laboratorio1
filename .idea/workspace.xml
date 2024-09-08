@@ -33,6 +33,7 @@
     "Python.BinaryTree.executor": "Run",
     "Python.MainGUI.executor": "Run",
     "Python.Main_GUI.executor": "Run",
+    "Python.PruebaArbol.executor": "Run",
     "Python.SearchGUI.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "JujoDev",

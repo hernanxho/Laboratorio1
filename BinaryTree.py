@@ -22,7 +22,7 @@ class BinaryTree:
         print()
 
     def insert(self, node: Optional["Node"] , data: Any) -> "Node":
-        if (le.encontrar(data) == ""):
+        if le.encontrar(data) == "":
             print("Definitivamente no encontrado")
         else:
             if node is None:
