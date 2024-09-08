@@ -12,8 +12,9 @@ def encontrar(pelicula):
     if(pelicula.lower()==title.lower()):
      print("Pelicula Encontrada " + title)
      encontrado = True
-     return True
+     return title
  if(encontrado== False):
    print("Pelicula no encontrada")
-   return False
+   return ""
+   
 

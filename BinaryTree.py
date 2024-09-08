@@ -21,7 +21,7 @@ class BinaryTree:
         print()
     
     def insert(self, data: Any) -> bool:
-     if(le.encontrar(data)!=True):
+     if(le.encontrar(data)==""):
          print("Definitivamente no encontrado")
      else:
          to_insert = Node(data)
@@ -43,19 +43,25 @@ class BinaryTree:
         p, pad = self.search(data)
         if p is not None:
             if p.left is None and p.right is None:
-                if p == pad.left:
+                if pad is None:
+                    self.root = None
+                elif p == pad.left:
                     pad.left = None
                 else:
                     pad.right = None
                 del p
             elif p.left is None and p.right is not None:
-                if p == pad.left:
+                if pad is None:
+                    self.root = p.right
+                elif p == pad.left:
                     pad.left = p.right
                 else:
                     pad.right = p.right
                 del p
             elif p.left is not None and p.right is None:
-                if p == pad.left:
+                if pad is None:
+                    self.root = p.left
+                elif p == pad.left:
                     pad.left = p.left
                 else:
                     pad.right = p.left
@@ -83,12 +89,15 @@ class BinaryTree:
     def search(self, data: Any) -> Tuple[Optional["Node.Node"], Optional["Node.Node"]]:
         p, pad = self.root, None
         while p is not None:
-            if data == p.data:
+            if data.lower() == p.data.lower():
                 return p, pad
             else:
                 pad = p
-                if data < p.data:
+                if data.lower() < p.data.lower():
                     p = p.left
                 else:
                     p = p.right
-        return p, pad        
+        if(p is None):
+         print("No se encontró")
+        return p, pad
+             

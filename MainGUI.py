@@ -103,9 +103,16 @@ class MainGUI:
         self.deleteFrames()
         self.indicate(self.deleteLb)
         deleteFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
+        deleteFrame.pack()
         lb = tk.Label(deleteFrame, text = "Eliminar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
-        deleteFrame.pack(pady=20)
+        lb.pack(pady=60)
+
+        texteliminar = tk.Entry(deleteFrame,width=30,font=("Arial",40))
+        texteliminar.pack(pady=80)
+
+        eliminar = tk.Button(deleteFrame, text="Eliminar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: pb.tree.delete(texteliminar.get(),False) and pb.printRoot(pb.tree.root))
+        eliminar.pack(pady=10)
+        
 
 
     def insertFrame(self):
@@ -120,7 +127,7 @@ class MainGUI:
         text = tk.Entry(insertFrame,width=30,font=("Arial",40))
         text.pack(pady=80)
 
-        insert = tk.Button(insertFrame,  text = "Insertar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: pb.tree.insert(text.get()) and pb.printRoot(pb.tree.root))
+        insert = tk.Button(insertFrame,  text = "Insertar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: pb.tree.insert(le.encontrar(text.get())) and pb.printRoot(pb.tree.root))
         insert.pack(pady=10)
 
 
