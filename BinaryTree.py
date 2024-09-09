@@ -4,7 +4,7 @@ import Lectura as le
 
 class BinaryTree:
 
-    def _init_(self, root: Optional["Node.Node"] = None) -> None:
+    def __init__(self, root: Optional["Node.Node"] = None) -> None:
         self.root = root
 
     def levels_nr(self) -> None:
@@ -100,3 +100,4 @@ class BinaryTree:
         if(p is None):
          print("No se encontró")
         return p, pad
+             
