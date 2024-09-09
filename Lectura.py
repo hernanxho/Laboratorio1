@@ -1,7 +1,7 @@
 import pandas as pd 
 from BinaryTree import *
 from Node import *
-
+from tkinter import messagebox
 
 df = pd.read_csv("./data/dataset_movies.csv")
 
@@ -18,7 +18,7 @@ def encontrar(pelicula):
  if(encontrado== False):
    print("Pelicula no encontrada")
    return ""
-   
+myList=[] 
 def busqueda(año,valor,node,myList):
   if node is not None: 
    for index,row in df.iterrows():
@@ -33,8 +33,13 @@ def busqueda(año,valor,node,myList):
        myList.append(title)
    busqueda(año,valor,node.left,myList)
    busqueda(año,valor,node.right,myList)
-   mostrar(myList)
+
  
    
-def mostrar(myList):
-  print (myList)
+def mostrar(año,valor,node,myList):
+ busqueda(año,valor,node,myList)
+ message=""
+ for i in myList:
+   message= message+i+"\n"
+ messagebox.showinfo("Peliculas","Lista peliculas:\n " +message)
+ myList.clear()

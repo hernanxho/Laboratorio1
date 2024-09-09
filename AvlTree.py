@@ -1,5 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+from typing import Any, Optional, Tuple
+from tkinter import messagebox
 
 class Node:
     def __init__(self, data, parent=None):
@@ -60,6 +62,8 @@ class AVLTree:
         return node
 
     def insert(self, data):
+        if(data==""):
+         return 
         if self.root is None:
             self.root = Node(data, None)
             return
@@ -91,9 +95,9 @@ class AVLTree:
     def _delete(self, node, data):
         if node is None:
             return node
-        elif data < node.data:
+        elif data.lower() < node.data.lower():
             node.left = self._delete(node.left, data)
-        elif data > node.data:
+        elif data.lower() > node.data.lower():
             node.right = self._delete(node.right, data)
         else:
             if node.left is None:
@@ -143,16 +147,92 @@ class AVLTree:
         nx.draw(graph, pos, with_labels=True, node_size=3000, node_color="lightgreen", font_size=15, font_weight="bold", arrowsize=20)
         plt.show()
 
+
+    def search(self, data: Any) -> Tuple[Optional["Node.Node"], Optional["Node.Node"]]:
+        p, pad = self.root, None 
+        while p is not None:
+            if data.lower() == p.data.lower():
+                return p, pad
+            else:
+                pad = p
+                if data.lower() < p.data.lower():
+                    p = p.left
+                else:
+                    p = p.right
+        if(p is None):
+         print("No se encontró")
+        return p, pad
+    def uncle (self, node):
+        p,pad = self.search(node.data)
+        if pad is None:
+            return
+        pad, gf = self.search(pad.data)
+        if gf is None:
+            return None
+        if pad is gf.left:
+            return gf.right
+        else:
+            return gf.left
+
+    def grandfather(self,node):
+        p,pad = self.search(node.data)
+        if pad is None:
+            return
+        pad, gf = self.search(pad.data)
+        return gf
+
+    def father (self, node):
+        p,pad = self.search(node.data)
+        return pad
+    
+    def recorrido_niveles(self,node: Optional["Node"],b,p,q)->None:
+      if node is not None:
+        if(node == self.root):
+          p.append(node)
+          q.append(b)
+        if(node.left!=None and node.right!=None):
+          p.append(node.left)
+          q.append(b+1)
+          p.append(node.right)
+          q.append(b+1)
+        elif(node.left!=None and node.right==None):
+          p.append(node.left)
+          q.append(b+1)
+        elif(node.right!=None and node.left==None):
+          p.append(node.right)
+          q.append(b+1)
+        self.recorrido_niveles(node.left,b+1,p,q)
+        self.recorrido_niveles(node.right,b+1,p,q)
+        
+    
+    def familiar(self,data):
+        p,pad=self.search(data)
+        if(p==None):
+            return
+        uncle = self.uncle(p)
+        grandfather=self.grandfather(p)
+       
+        if(pad==None):
+            padre=" Es huérfano"
+        else:
+            padre=pad.data
+       
+        if(uncle==None):
+            tio=" No tiene"
+        else:
+            tio=uncle.data
+       
+        if(grandfather==None):
+            abuelo="No tiene"
+        else:
+            abuelo = grandfather.data
+        listNodos=[]
+        listNiveles=[]
+        self.recorrido_niveles(self.root,0,listNodos,listNiveles)
+        level=listNiveles[listNodos.index(p)]
+        messagebox.showinfo("Datos","Los datos de -" + p.data + "- son: \nPadre: " + padre + "\nAbuelo: "+ abuelo + "\nTio: " +tio+ "\nNivel: " +str(level) )
+
+    
+    
 avl_tree = AVLTree()
-#avl_tree.insert(5)
-#avl_tree.insert(3)
-#avl_tree.insert(7)
-#avl_tree.insert(2)
-#avl_tree.insert(4)
-#avl_tree.insert(6)
-#avl_tree.insert(8)
 
-#avl_tree.draw_tree(avl_tree.root)
-
-#avl_tree.delete(4)
-#avl_tree.draw_tree(avl_tree.root)

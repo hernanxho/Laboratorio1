@@ -2,9 +2,8 @@ import Lectura as le
 import tkinter as tk
 from tkinter import ttk
 import BinaryTree as bt
-import ElArbol as pb
 import Node
-import funcionesCorrectas as lqs
+import AvlTree as lqs
 
 class MainGUI:
     def __init__(self):
@@ -26,7 +25,7 @@ class MainGUI:
         self.startLb = tk.Label(self.optionFrame, text = "", bg = "#DEE9F3")
         self.startLb.place(x = 8, y = 35, width = 5, height = 65)
 
-        self.showBt = tk.Button(self.optionFrame, text = "Mostrar", font = ("Bold", 20), fg = "black", bd = 0, bg = "#0772D6", command = self.showFrame)
+        self.showBt = tk.Button(self.optionFrame, text = "Mostrar", font = ("Bold", 20), fg = "black", bd = 0, bg = "#0772D6", command = lambda: lqs.avl_tree.draw_tree(lqs.avl_tree.root))
         self.showBt.place(x = 45 , y = 180)
         self.showLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
         self.showLb.place(x = 8, y = 175, width = 5, height = 65)
@@ -47,15 +46,10 @@ class MainGUI:
         self.searchLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
         self.searchLb.place(x = 8, y = 595, width = 5, height = 65)
 
-        self.infoBt = tk.Button(self.optionFrame, text="¡Conócenos!", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = lambda: lqs.avl_tree.draw_tree(lqs.avl_tree.root))
-        self.infoBt.place(x=20, y=740)
-        self.infoLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
-        self.infoLb.place(x = 8, y = 735, width = 5, height = 65)
-
         self.closeBt = tk.Button(self.optionFrame, text="Cerrar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.close )
-        self.closeBt.place(x=45, y=880)
+        self.closeBt.place(x=40, y=740)
         self.closeLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
-        self.closeLb.place(x = 8, y = 875, width = 5, height = 65)
+        self.closeLb.place(x = 8, y = 735, width = 5, height = 65)
 
         self.startFrame()
         self.gui.mainloop()
@@ -70,7 +64,6 @@ class MainGUI:
         self.insertLb.config(bg="#0772D6")
         self.deleteLb.config(bg="#0772D6")
         self.searchLb.config(bg="#0772D6")
-        self.infoLb.config(bg = "#0772D6")
         self.closeLb.config(bg="#0772D6")
         
 
@@ -92,13 +85,6 @@ class MainGUI:
         lb.pack()
         startFrame.pack(pady=20)
 
-    def showFrame(self):
-        self.deleteFrames()
-        self.indicate(self.showLb)
-        showFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
-        lb = tk.Label(showFrame, text = "Mostrar", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
-        showFrame.pack(pady=20)
     
     def deleteFrame(self):
         self.deleteFrames()
@@ -111,7 +97,7 @@ class MainGUI:
         texteliminar = tk.Entry(deleteFrame,width=30,font=("Arial",40))
         texteliminar.pack(pady=80)
 
-        eliminar = tk.Button(deleteFrame, text="Eliminar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: pb.tree.delete(texteliminar.get(),False) and pb.printRoot(pb.tree.root))
+        eliminar = tk.Button(deleteFrame, text="Eliminar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: lqs.avl_tree.delete(texteliminar.get()))
         eliminar.pack(pady=10)
         
 
@@ -144,8 +130,8 @@ class MainGUI:
         textBox = tk.Entry(searchFrame,width=30,font=("Arial",40))
         textBox.pack(pady = 80)
 
-        rdBut1 = tk.Button(searchFrame,  text = "Buscar en el árbol", font = ("Times New Roman", 25), borderwidth= 20,command= lambda: pb.encontrarNodo(pb.tree.root,textBox.get()))
-        rdBut2 = tk.Button(searchFrame,  text="Buscar por parametros", font=("Times New Roman", 25), borderwidth= 20, command= self.searchParameter)
+        rdBut1 = tk.Button(searchFrame,  text = "Buscar en el Árbol", font = ("Times New Roman", 25), borderwidth= 20,command= lambda: lqs.avl_tree.familiar(textBox.get()))
+        rdBut2 = tk.Button(searchFrame,  text="Buscar por Parámetros", font=("Times New Roman", 25), borderwidth= 20, command= self.searchParameter)
         rdBut1.pack(pady = 10)
         rdBut2.pack(pady=10)
     
@@ -155,7 +141,7 @@ class MainGUI:
         searchIndicate = tk.Frame(self.mainFrame, bg="#0BB6E0")
         searchIndicate.pack()
 
-        lb = tk.Label(searchIndicate, text = "Buscar por parametros", font = ("Helvetica",70, "bold"), bg = "#0BB6E0")
+        lb = tk.Label(searchIndicate, text = "Buscar por Parámetros", font = ("Helvetica",70, "bold"), bg = "#0BB6E0")
         lb.pack(pady=80)
 
         año = tk.Label(searchIndicate, text = "Año", font = ("Helvetica",25, "bold"), bg = "#0BB6E0")
@@ -164,21 +150,15 @@ class MainGUI:
         text2 = tk.Entry(searchIndicate,width=30, font=("Arial",40))
         text1.pack()
         año.pack(pady=30)
-        ingreso = tk.Label(searchIndicate, text = "Ingreso nacionales", font = ("Helvetica",25, "bold"), bg = "#0BB6E0")
+        ingreso = tk.Label(searchIndicate, text = "Ingreso internacionales", font = ("Helvetica",25, "bold"), bg = "#0BB6E0")
         text2.pack(padx=20)
         ingreso.pack(pady=30)
         
 
-        buttonserach = tk.Button(searchIndicate, text="Buscar", font=("Times New Roman", 25), borderwidth= 20, command= lambda: le.busqueda(text1.get(),text2.get(),pb.tree.root,myList=[]))
+        buttonserach = tk.Button(searchIndicate, text="Buscar", font=("Times New Roman", 25), borderwidth= 20, command= lambda: le.mostrar(text1.get(),text2.get(),lqs.avl_tree.root,le.myList) )
         buttonserach.pack(pady=20)   
 
-    def infoFrame(self):
-        self.deleteFrames()
-        self.indicate(self.infoLb)
-        infoFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
-        lb = tk.Label(self.mainFrame, text = "¡Conócenos!", font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
-        infoFrame.pack(pady=20)
+
 
 
 
