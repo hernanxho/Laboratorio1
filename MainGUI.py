@@ -143,7 +143,7 @@ class MainGUI:
         textBox = tk.Entry(searchFrame,width=30,font=("Arial",40))
         textBox.pack(pady = 80)
 
-        rdBut1 = tk.Button(searchFrame,  text = "Buscar en el árbol", font = ("Times New Roman", 25), borderwidth= 20,command= lambda: le.encontrar(textBox.get()))
+        rdBut1 = tk.Button(searchFrame,  text = "Buscar en el árbol", font = ("Times New Roman", 25), borderwidth= 20,command= lambda: pb.encontrarNodo(pb.tree.root,textBox.get()))
         rdBut2 = tk.Button(searchFrame,  text="Buscar por parametros", font=("Times New Roman", 25), borderwidth= 20, command= self.searchParameter)
         rdBut1.pack(pady = 10)
         rdBut2.pack(pady=10)
