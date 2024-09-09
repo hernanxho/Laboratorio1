@@ -37,6 +37,7 @@ class BinaryTree:
                     pad.left = to_insert
                 else:
                     pad.right = to_insert
+                self.balance(self.root,data)
                 return True
 
     def delete(self, data: Any, mode: bool = True) -> bool:
@@ -83,11 +84,12 @@ class BinaryTree:
                     else:
                         pad_sus.left = son_sus
                     del sus
+            self.balance(self.root,data)
             return True
         return False
     
     def search(self, data: Any) -> Tuple[Optional["Node.Node"], Optional["Node.Node"]]:
-        p, pad = self.root, None
+        p, pad = self.root, None 
         while p is not None:
             if data.lower() == p.data.lower():
                 return p, pad
@@ -100,4 +102,78 @@ class BinaryTree:
         if(p is None):
          print("No se encontró")
         return p, pad
-             
+    
+    def balance(self, node: Optional["Node"], data) -> Optional["Node"]:
+        if node is None:
+            return None
+
+        
+        nodeBF = node.balanceFactor
+
+       
+        if nodeBF < -1:
+            if data < node.left.data: 
+                return self.simpleRightRotation(node)
+            else:  
+                return self.doubleLeftRightRotation(node)
+
+       
+        if nodeBF > 1:
+            if data > node.right.data:  
+                return self.simpleLeftRotation(node)
+            else:  
+                return self.doubleRightLeftRotation(node)
+
+        return node  
+
+    def simpleRightRotation(self, node: "Node") -> "Node":
+        aux = node.left
+        node.left = aux.right
+        aux.right = node
+
+        
+        self.updateFactor(node)
+        self.updateFactor(aux)
+
+        return aux
+
+    def simpleLeftRotation(self, node: "Node") -> "Node":
+        aux = node.right
+        node.right = aux.left
+        aux.left = node
+
+        
+        self.updateFactor(node)
+        self.updateFactor(aux)
+
+        return aux
+
+    def doubleRightLeftRotation(self, node: "Node") -> "Node":
+        node.right = self.simpleRightRotation(node.right)
+        return self.simpleLeftRotation(node)
+
+    def doubleLeftRightRotation(self, node: "Node") -> "Node":
+        node.left = self.simpleLeftRotation(node.left)
+        return self.simpleRightRotation(node)
+
+    def updateFactor(self, node: "Node") -> None:
+        if node is not None:
+            
+            node.balanceFactor = self.height(node.right) - self.height(node.left)
+
+    def height(self, node: Optional["Node"]) -> int:
+        if node is None:
+            return -1  
+        return max(self.height(node.left), self.height(node.right)) + 1
+    
+    def __pred(self, node: "Node") -> Tuple["Node", "Node", Optional["Node"]]:
+        p, pad = node.left, node
+        while p.right is not None:
+            p, pad = p.right, p
+        return p, pad, p.left
+
+    def __sus(self, node: "Node") -> Tuple["Node", "Node", Optional["Node"]]:
+        p, pad = node.right, node
+        while p.left is not None:
+            p, pad = p.left, p
+        return p,pad,p.right

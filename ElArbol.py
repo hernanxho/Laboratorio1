@@ -10,6 +10,12 @@ def printRoot(node):
      printRoot(node.left)
      printRoot(node.right)
 
+def encontrarNodo(node,data):
+   if(node!=None):
+     if(node.data.lower()==data.lower()):
+      print("pelicula encontrada "+node.data)
+     encontrarNodo(node.left,data)
+     encontrarNodo(node.right,data)
 
 
 
