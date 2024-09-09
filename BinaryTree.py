@@ -37,7 +37,7 @@ class BinaryTree:
                     pad.left = to_insert
                 else:
                     pad.right = to_insert
-                self.balanceTree(self.root,data)
+                self.balance(self.root,data)
                 return True
 
     def delete(self, data: Any, mode: bool = True) -> bool:
@@ -84,7 +84,7 @@ class BinaryTree:
                     else:
                         pad_sus.left = son_sus
                     del sus
-            self.balanceTree(self.root,data)
+            self.balance(self.root,data)
             return True
         return False
     
@@ -103,62 +103,68 @@ class BinaryTree:
          print("No se encontró")
         return p, pad
     
-    def balanceTree(self, node: Optional["Node"], data) -> None:
-        if node is not None:
-            self.__preorder_r(node.left)
-            self.__preorder_r(node.right)
-        self.balance(node,data)
-            
-    def balance(self, node: Optional["Node"], data) -> None:
-        if(node==None):
-            return
-        self.updateFactor(node)
-        nodeBF = node.balanceFactor
-        if nodeBF < -1 and data < node.left.data:
-            return self.simpleRightRotation(node)
-        if nodeBF > 1 and data > node.right.data:
-            return self.simpleLeftRotation(node)
-        if nodeBF < -1 and data > node.left.data:
-            return self.doubleLeftRightRotation(node)
-        if nodeBF > 1 and data < node.right.data:
-            return self.doubleRightLeftRotation(node)
-        
+    def balance(self, node: Optional["Node"], data) -> Optional["Node"]:
+        if node is None:
+            return None
 
-    def simpleRightRotation(self, node:Node):
+        
+        nodeBF = node.balanceFactor
+
+       
+        if nodeBF < -1:
+            if data < node.left.data: 
+                return self.simpleRightRotation(node)
+            else:  
+                return self.doubleLeftRightRotation(node)
+
+       
+        if nodeBF > 1:
+            if data > node.right.data:  
+                return self.simpleLeftRotation(node)
+            else:  
+                return self.doubleRightLeftRotation(node)
+
+        return node  
+
+    def simpleRightRotation(self, node: "Node") -> "Node":
         aux = node.left
         node.left = aux.right
         aux.right = node
+
+        
+        self.updateFactor(node)
+        self.updateFactor(aux)
+
         return aux
 
-    def simpleLeftRotation(self, node:Node):
+    def simpleLeftRotation(self, node: "Node") -> "Node":
         aux = node.right
         node.right = aux.left
         aux.left = node
+
+        
+        self.updateFactor(node)
+        self.updateFactor(aux)
+
         return aux
 
-    def doubleRightLeftRotation(self, node):
+    def doubleRightLeftRotation(self, node: "Node") -> "Node":
         node.right = self.simpleRightRotation(node.right)
         return self.simpleLeftRotation(node)
 
-    def doubleLeftRightRotation(self, node):
+    def doubleLeftRightRotation(self, node: "Node") -> "Node":
         node.left = self.simpleLeftRotation(node.left)
         return self.simpleRightRotation(node)
-    
-    def __preorder_r(self, node: Optional["Node"]) -> None:
-        if node is not None:
-            #print(node.data, end = ' ')
-            self.__preorder_r(node.left)
-            self.__preorder_r(node.right)
-    def updateFactor(self, node):
-        if node is not None:
-            node.balanceFactor = (self.height(node.right) - self.height(node.left))
-    def height(self, node: Optional["Node"]) -> int:
-        return self._height_r(node)
 
-    def _height_r(self, node: Optional["Node"]) -> int:
+    def updateFactor(self, node: "Node") -> None:
+        if node is not None:
+            
+            node.balanceFactor = self.height(node.right) - self.height(node.left)
+
+    def height(self, node: Optional["Node"]) -> int:
         if node is None:
-            return 0
-        return 1 + max(self._height_r(node.left), self._height_r(node.right))
+            return -1  
+        return max(self.height(node.left), self.height(node.right)) + 1
     
     def __pred(self, node: "Node") -> Tuple["Node", "Node", Optional["Node"]]:
         p, pad = node.left, node
@@ -171,4 +177,3 @@ class BinaryTree:
         while p.left is not None:
             p, pad = p.left, p
         return p,pad,p.right
-             
