@@ -3,7 +3,8 @@ import tkinter as tk
 from tkinter import ttk
 import BinaryTree as bt
 import ElArbol as pb
-
+import Node
+import funcionesCorrectas as lqs
 
 class MainGUI:
     def __init__(self):
@@ -46,7 +47,7 @@ class MainGUI:
         self.searchLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
         self.searchLb.place(x = 8, y = 595, width = 5, height = 65)
 
-        self.infoBt = tk.Button(self.optionFrame, text="¡Conócenos!", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = lambda: pb.tree.draw_tree(pb.tree.root))
+        self.infoBt = tk.Button(self.optionFrame, text="¡Conócenos!", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = lambda: lqs.avl_tree.draw_tree(lqs.avl_tree.root))
         self.infoBt.place(x=20, y=740)
         self.infoLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
         self.infoLb.place(x = 8, y = 735, width = 5, height = 65)
@@ -127,7 +128,7 @@ class MainGUI:
         text = tk.Entry(insertFrame,width=30,font=("Arial",40))
         text.pack(pady=80)
 
-        insert = tk.Button(insertFrame,  text = "Insertar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: pb.tree.insert(pb.tree.root ,le.encontrar(text.get().strip())) and pb.printRoot(pb.tree.root))
+        insert = tk.Button(insertFrame,  text = "Insertar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: lqs.avl_tree.insert(le.encontrar(text.get().strip())))
         insert.pack(pady=10)
 
 
