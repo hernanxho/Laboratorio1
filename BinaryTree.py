@@ -2,6 +2,7 @@ from Node import *
 from typing import Any, Optional, Tuple
 import Lectura as le
 
+#CLASE ENCARGADA DE LAS OPERACIONES DETRAS DE EL FUNCIONAMIENTO DEL PROGRAMA
 class BinaryTree:
 
     def __init__(self, root: Optional["Node.Node"] = None) -> None:
@@ -20,7 +21,7 @@ class BinaryTree:
                 q.append(p.right)
         print()
     
-    def insert(self, data: Any) -> bool:
+    def insert(self, data: Any) -> bool: #FUNCION ENCARGADA DE LOS CASOS EN LA INSERCION
      if(le.encontrar(data)==""):
          print("Definitivamente no encontrado")
      else:
@@ -42,7 +43,7 @@ class BinaryTree:
             self.balance(self.root,data)
             return True
 
-    def delete(self, data: Any, mode: bool = True) -> bool:
+    def delete(self, data: Any, mode: bool = True) -> bool: #FUNCION ENCARGADA DE LA ELIMINACION Y SU CORRECTO FUNCIONAMIENTO
         p, pad = self.search(data)
         if p is not None:
             if p.left is None and p.right is None:
@@ -90,7 +91,7 @@ class BinaryTree:
             return True
         return False
     
-    def search(self, data: Any) -> Tuple[Optional["Node.Node"], Optional["Node.Node"]]:
+    def search(self, data: Any) -> Tuple[Optional["Node.Node"], Optional["Node.Node"]]: #FUNCION ENCARGADA DE LOS CASOS DE LA BUSQUEDA
         p, pad = self.root, None 
         while p is not None:
             if data.lower() == p.data.lower():
@@ -105,7 +106,7 @@ class BinaryTree:
          print("No se encontró")
         return p, pad
     
-    def balance(self, node: Optional["Node"], data) -> Optional["Node"]:
+    def balance(self, node: Optional["Node"], data) -> Optional["Node"]: #FUNCION ENCARGADA DE LOS CASOS DE BALANCEO
         print("entro a la funcion")
         if node is None:
             return None
@@ -133,7 +134,7 @@ class BinaryTree:
 
         return node  
 
-    def simpleRightRotation(self, node: "Node") -> "Node":
+    def simpleRightRotation(self, node: "Node") -> "Node": #ROTACION SIMPLE DERECHA
         aux = node.left
         node.left = aux.right
         print("movio a la izquierda a: " )
@@ -146,7 +147,7 @@ class BinaryTree:
 
         return aux
 
-    def simpleLeftRotation(self, node: "Node") -> "Node":
+    def simpleLeftRotation(self, node: "Node") -> "Node": #ROTACION SIMPLE IZQUIERDA
         aux = node.right
         node.right = aux.left
         print("movio a la derecha a: " )
@@ -159,15 +160,15 @@ class BinaryTree:
 
         return aux
 
-    def doubleRightLeftRotation(self, node: "Node") -> "Node":
+    def doubleRightLeftRotation(self, node: "Node") -> "Node": #ROTACION DOBLE DE DERECHA A IZQUIERDA
         node.right = self.simpleRightRotation(node.right)
         return self.simpleLeftRotation(node)
 
-    def doubleLeftRightRotation(self, node: "Node") -> "Node":
+    def doubleLeftRightRotation(self, node: "Node") -> "Node": #ROTACION DOBLE DE IZQUIERDA A DERECHA
         node.left = self.simpleLeftRotation(node.left)
         return self.simpleRightRotation(node)
 
-    def updateFactor(self, node: "Node") -> None:
+    def updateFactor(self, node: "Node") -> None: #FUNCION QUE ACTUALIZA CUANDO EL ARBOL ESTA DESBALANCEADO
         if node is not None:
             
             node.balanceFactor = self.height(node.right) - self.height(node.left)
@@ -177,13 +178,13 @@ class BinaryTree:
             return -1  
         return max(self.height(node.left), self.height(node.right)) + 1
     
-    def __pred(self, node: "Node") -> Tuple["Node", "Node", Optional["Node"]]:
+    def __pred(self, node: "Node") -> Tuple["Node", "Node", Optional["Node"]]: #PREDECESOR
         p, pad = node.left, node
         while p.right is not None:
             p, pad = p.right, p
         return p, pad, p.left
 
-    def __sus(self, node: "Node") -> Tuple["Node", "Node", Optional["Node"]]:
+    def __sus(self, node: "Node") -> Tuple["Node", "Node", Optional["Node"]]: #SUCESOR
         p, pad = node.right, node
         while p.left is not None:
             p, pad = p.left, p

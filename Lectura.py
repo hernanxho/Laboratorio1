@@ -4,10 +4,11 @@ from Node import *
 from tkinter import messagebox
 
 df = pd.read_csv("./data/dataset_movies.csv")
+ 
+#CLASE LECTORA E IMPORTADORA DEL DATASET
 
 
-
-def encontrar(pelicula):
+def encontrar(pelicula): #FUNCION ENCARGADA DE EXTRAER LA INFORMACION DE LAS PELICULAS DEL DATASET A LOS NODOS
  encontrado = False
  for index, row in df.iterrows():
     title = row['Title']
@@ -19,7 +20,7 @@ def encontrar(pelicula):
    print("Pelicula no encontrada")
    return ""
 myList=[] 
-def busqueda(año,valor,node,myList):
+def busqueda(año,valor,node,myList): #EN ESTA FUNCION SE DEFINEN LOS ATRIBUTOS DE LOS NODOS
   if node is not None: 
    for index,row in df.iterrows():
      title = row['Title']
@@ -36,7 +37,7 @@ def busqueda(año,valor,node,myList):
 
  
    
-def mostrar(año,valor,node,myList):
+def mostrar(año,valor,node,myList): #FUNCION ENCARGADA DEL MENSAJE AL BUSCAR UNA PELICULA EN ESPECIFICO
  busqueda(año,valor,node,myList)
  message=""
  for i in myList:

@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 from typing import Any, Optional, Tuple
 from tkinter import messagebox
 import Node
-
-class Node:
+#CLASE PARA LA GENERACION DEL ARBOL
+class Node: #FUNCION ESTEROTIPICA NODO
     def __init__(self, data, parent=None):
         self.data = data
         self.left = None
@@ -22,10 +22,10 @@ class AVLTree:
         else:
             return node.height
 
-    def update_height(self, node):
+    def update_height(self, node): 
         node.height = 1 + max(self.height(node.left), self.height(node.right))
 
-    def balance_factor(self, node):
+    def balance_factor(self, node): #ACTUALIZAR FACTOR DE BALANCEO
         return self.height(node.right) - self.height(node.left)
 
     def simple_left_rotation(self, z):
@@ -46,7 +46,7 @@ class AVLTree:
         self.update_height(y)
         return y
 
-    def rebalance(self, node):
+    def rebalance(self, node): #BALANCEO
         balance = self.balance_factor(node)
         if balance > 1:
             if self.height(node.right.right) >= self.height(node.right.left):
@@ -62,7 +62,7 @@ class AVLTree:
                 node = self.simple_right_rotation(node)
         return node
 
-    def insert(self, data):
+    def insert(self, data): #INSERCION
         if(data==""):
          return 
         if self.root is None:
@@ -70,7 +70,7 @@ class AVLTree:
             return
         self.root = self._insert(self.root, data)
 
-    def _insert(self, node, data):
+    def _insert(self, node, data): #INSERCION CASOS
         if node is None:
             return Node(data, None)
         elif data < node.data:
@@ -90,10 +90,10 @@ class AVLTree:
 
         return node
 
-    def delete(self, data):
+    def delete(self, data): #BORRAR
         self.root = self._delete(self.root, data)
 
-    def _delete(self, node, data):
+    def _delete(self, node, data): #BORRAR CASOS
         if node is None:
             return node
         elif data.lower() < node.data.lower():
@@ -110,7 +110,7 @@ class AVLTree:
                 node.data = min_node.data
                 node.right = self._delete(node.right, min_node.data)
 
-        if node is None:
+        if node is None: #SI NODO ES VACIO
             return node
 
         node.height = 1 + max(self.height(node.left), self.height(node.right))
@@ -149,7 +149,7 @@ class AVLTree:
         plt.show()
 
 
-    def search(self, data: Any) -> Tuple[Optional["Node.Node"], Optional["Node.Node"]]:
+    def search(self, data: Any) -> Tuple[Optional["Node.Node"], Optional["Node.Node"]]: #BUSQUEDA DE DATA
         p, pad = self.root, None 
         while p is not None:
             if data.lower() == p.data.lower():
@@ -175,18 +175,18 @@ class AVLTree:
         else:
             return gf.left
 
-    def grandfather(self,node):
+    def grandfather(self,node): #FUNCION ABUELO
         p,pad = self.search(node.data)
         if pad is None:
             return
         pad, gf = self.search(pad.data)
         return gf
 
-    def father (self, node):
+    def father (self, node): #FUNCION PADRE
         p,pad = self.search(node.data)
         return pad
     
-    def recorrido_niveles(self,node: Optional["Node"],b,p,q)->None:
+    def recorrido_niveles(self,node: Optional["Node"],b,p,q)->None: #RECORRIDO POR NIVELES
       if node is not None:
         if(node == self.root):
           p.append(node)
@@ -205,7 +205,7 @@ class AVLTree:
         self.recorrido_niveles(node.left,b+1,p,q)
         self.recorrido_niveles(node.right,b+1,p,q)
         
-    def mostrarNiveles(self, root):
+    def mostrarNiveles(self, root): #RESULTADO DEL RECORRIDO POR NIVELES
         p = []
         q = []
         message = ""
@@ -217,7 +217,7 @@ class AVLTree:
                 message = message + p[i].data + ", "
         messagebox.showinfo("Niveles del Árbol", message)
         
-    def familiar(self,data):
+    def familiar(self,data): #CASOS FAMILIARES AL NODO
         p,pad=self.search(data)
         if(p==None):
             return
@@ -246,6 +246,6 @@ class AVLTree:
                             + padre + "\nAbuelo: "+ abuelo + "\nTio: " +tio+ "\nNivel: " +str(level)+ "\nFactor de balanceo: " +str(self.balance_factor(p)) )
 
     
-    
+    #GENERACION DEL ARBOL
 avl_tree = AVLTree()
 

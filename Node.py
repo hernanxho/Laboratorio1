@@ -1,5 +1,5 @@
 from typing import Any, Optional, Tuple
-
+#CLASE NODO
 class Node:
 
     def __init__(self, data: Any, parent: Optional["Node"]) -> None:

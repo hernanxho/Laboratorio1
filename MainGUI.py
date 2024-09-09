@@ -7,7 +7,9 @@ import AvlTree as lqs
 from PIL import ImageTk, Image
 from tkinter import PhotoImage
 
+#CLASE PRINCIPAL CONTROLADORA DE INTERFAZ
 class MainGUI:
+    #CREACION DE INTERFAZ INTERACTIVA, BOTONES Y SU RESPECTIVA PROGRAMACION
     def __init__(self):
 
         self.gui = tk.Tk()
@@ -21,33 +23,33 @@ class MainGUI:
 
         self.mainFrame = tk.Frame(self.gui, bg="#0BB6E0", highlightbackground="black", highlightthickness=2)
         self.mainFrame.pack(fill=tk.BOTH, expand=True)
-
+        #BOTON DE PAGINA INICIAL
         self.startBt = tk.Button(self.optionFrame, text = "Inicio", font = ("Bold", 20), fg = "black", bd = 0, bg = "#0772D6", command = self.startFrame)
         self.startBt.place(x = 45 , y = 40)
         self.startLb = tk.Label(self.optionFrame, text = "", bg = "#DEE9F3")
         self.startLb.place(x = 8, y = 35, width = 5, height = 65)
-
+        #BOTON PARA MOSTRAR EL ARBOL AVL
         self.showBt = tk.Button(self.optionFrame, text = "Mostrar", font = ("Bold", 20), fg = "black", bd = 0, bg = "#0772D6", command = lambda: lqs.avl_tree.draw_tree(lqs.avl_tree.root))
         self.showBt.place(x = 45 , y = 180)
         self.showLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
         self.showLb.place(x = 8, y = 175, width = 5, height = 65)
-
+        #BOTON DE INSERCION
         self.insertBt = tk.Button(self.optionFrame, text="Insertar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.insertFrame)
         self.insertBt.place(x=45, y=320)
         self.insertLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
         self.insertLb.place(x = 8, y = 315, width = 5, height = 65)
 
-
+        #BOTON DE ELIMINACION
         self.deleteBt = tk.Button(self.optionFrame, text="Eliminar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.deleteFrame)
         self.deleteBt.place(x=45, y=460)
         self.deleteLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
         self.deleteLb.place(x = 8, y = 455, width = 5, height = 65)
-
+        #BOTON DE BUSQUEDA
         self.searchBt = tk.Button(self.optionFrame, text="Buscar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.searchFrame)
         self.searchBt.place(x=45, y=600)
         self.searchLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
         self.searchLb.place(x = 8, y = 595, width = 5, height = 65)
-
+        #BOTON DE CIERRE
         self.closeBt = tk.Button(self.optionFrame, text="Cerrar", font=("Bold", 20), fg="black", bd=0, bg="#0772D6", command = self.close )
         self.closeBt.place(x=40, y=740)
         self.closeLb = tk.Label(self.optionFrame, text = "", bg = "#0772D6")
@@ -78,7 +80,7 @@ class MainGUI:
             frame.destroy()
 
 
-
+    #PAGINA PRINCIPAL DE LA INTERFAZ DE USUARIO
     def startFrame(self):
         self.deleteFrames()
         self.indicate(self.startLb)
@@ -92,7 +94,7 @@ class MainGUI:
         imagenlbl.image = imagen
         imagenlbl.pack()
 
-    
+    #FUNCION PARA LA ELIMINACION
     def deleteFrame(self):
         self.deleteFrames()
         self.indicate(self.deleteLb)
@@ -108,7 +110,7 @@ class MainGUI:
         eliminar.pack(pady=10)
         
 
-
+    #FUNCION PARA INSERTAR DATOS DEL DATASET (PELICULAS)
     def insertFrame(self):
         self.deleteFrames()
         self.indicate(self.insertLb)
@@ -124,7 +126,7 @@ class MainGUI:
         insert = tk.Button(insertFrame,  text = "Insertar", font = ("Times New Roman", 25), borderwidth= 20, command= lambda: lqs.avl_tree.insert(le.encontrar(text.get().strip())))
         insert.pack(pady=10)
 
-
+    #FUNCION PARA BUSCAR DATOS (PELICULAS) UNA VEZ HAN SIDO INGRESADOS EN EL ARBOL AVL
     def searchFrame(self):
         self.deleteFrames()
         self.indicate(self.searchLb)
@@ -144,6 +146,7 @@ class MainGUI:
         rdBut2.pack(pady=10)
         rdBut3.pack(pady=10)
 
+    #FUNCION PARA BUSCAR LOS NODOS QUE CUMPLAN LOS CRITERIOS ANTERIORMENTE ESTABLECIDOS EN LA DOCUMENTACION (PUNTO 4)
     def searchParameter(self):
         self.deleteFrames()
         self.indicate(self.searchLb)
