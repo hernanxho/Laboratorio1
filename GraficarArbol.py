@@ -1,16 +1,25 @@
-from graphviz import Digraph
+import matplotlib.pyplot as plt
+import ElArbol as arbol
 
-# Crear un nuevo gráfico dirigido
-dot = Digraph()
+def graficar_arbol(nodo, x=0, y=0, delta_x=1):
+    if nodo is not None:
+        plt.text(x, y, str(nodo.data), ha='center', va='center', bbox=dict(facecolor='white', edgecolor='black'))
 
-# Añadir nodos
-dot.node('A', 'Nodo A')
-dot.node('B', 'Nodo B')
-dot.node('C', 'Nodo C')
+    if nodo.left is not None:
+            plt.plot([x, x - delta_x], [y - 0.1, y - 1], 'k-')
+            graficar_arbol(nodo.left, x - delta_x, y - 1, delta_x / 2)
 
-# Añadir aristas
-dot.edge('A', 'B', 'A -> B')
-dot.edge('B', 'C', 'B -> C')
+    if nodo.right is not None:
+            plt.plot([x, x + delta_x], [y - 0.1, y - 1], 'k-')
+            graficar_arbol(nodo.right, x + delta_x, y - 1, delta_x / 2)
 
-# Renderizar el gráfico
-dot.render('grafico', format='png', cleanup=True)
+
+arbol.tree.insert(arbol.tree.root, 'silence')
+arbol.tree.insert(arbol.tree.root, 'wonder woman')
+arbol.tree.insert(arbol.tree.root, 'Unbreakable')
+arbol.tree.insert(arbol.tree.root, 'traffic')
+
+plt.figure(figsize=(8, 6))
+graficar_arbol(arbol.tree.root)
+plt.axis('off')  # Ocultar los ejes
+plt.show()

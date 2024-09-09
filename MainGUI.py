@@ -1,4 +1,5 @@
 import Lectura as le
+import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk
 import BinaryTree as bt
@@ -185,8 +186,53 @@ class MainGUI:
         lb.pack()
         infoFrame.pack(pady=20)
 
+def build_avl_tree_from_dataframe(df):
+    tree = bt()
+    root = None
+
+    # Iterate over DataFrame rows and insert into the AVL tree
+    for index, row in df.iterrows():
+        Title = row['Title']
+        Year = int(row['Year'])
+        Worldwide_Earnings = float(row['Worldwide Earnings'])
+        Domestic_Earnings = float(row['Domestic Earnings'])
+        Foreign_Earnings = float(row['Foreign Earnings'])
+        Domestic_Percent = float(row['Domestic Percent Earnings'])
+        Foreign_Percent = float(row['Foreign Percent Earnings'])
+
+        # Insert each row into the AVL tree
+        root = tree.insert(root, Title, Year, Worldwide_Earnings, Domestic_Earnings, Foreign_Earnings, Domestic_Percent,
+                           Foreign_Percent)
+
+    return root
 
 
+def plot_avl_tree(node, x=0, y=0, dx=1, dy=1, ax=None, level=1):
+    if node is None:
+        return
 
+    ax.text(x, y, f'{node.Title}', ha='center', va='center', fontsize=8,
+            bbox=dict(facecolor='lightblue', edgecolor='black', boxstyle='round,pad=0.3'))
+
+    if node.left:
+        # Draw left subtree
+        ax.plot([x, x - dx], [y, y - dy], color='black')
+        plot_avl_tree(node.left, x - dx, y - dy, dx / 2.5, dy, ax, level + 1)
+
+    if node.right:
+        # Draw right subtree
+        ax.plot([x, x + dx], [y, y - dy], color='black')
+        plot_avl_tree(node.right, x + dx, y - dy, dx / 2.5, dy, ax, level + 1)
+
+
+def draw_tree(root):
+    fig, ax = plt.subplots(figsize=(12, 8))
+    ax.set_aspect('equal')
+    ax.axis('off')
+
+    plot_avl_tree(root, ax=ax, dx=5, dy=2)
+    plt.show()
+
+    draw_tree(root)
 
 MainGUI()
