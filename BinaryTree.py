@@ -35,10 +35,12 @@ class BinaryTree:
             else:
                 if data < pad.data:
                     pad.left = to_insert
+                    print("insertado en la izquierda de: " +pad.data)
                 else:
                     pad.right = to_insert
-                self.balance(self.root,data)
-                return True
+                    print("insertado en la derecha de:" + pad.data)
+            self.balance(self.root,data)
+            return True
 
     def delete(self, data: Any, mode: bool = True) -> bool:
         p, pad = self.search(data)
@@ -104,17 +106,20 @@ class BinaryTree:
         return p, pad
     
     def balance(self, node: Optional["Node"], data) -> Optional["Node"]:
+        print("entro a la funcion")
         if node is None:
             return None
 
-        
+        self.updateFactor(node)
         nodeBF = node.balanceFactor
-
+        print("factor de balanceo es: " + str(nodeBF))
        
         if nodeBF < -1:
-            if data < node.left.data: 
+            if data < node.left.data:
+                print("entro para simpleRightRotacion") 
                 return self.simpleRightRotation(node)
-            else:  
+            else:
+                print("entro para doubFeleftRightRotacion")  
                 return self.doubleLeftRightRotation(node)
 
        
@@ -129,7 +134,9 @@ class BinaryTree:
     def simpleRightRotation(self, node: "Node") -> "Node":
         aux = node.left
         node.left = aux.right
+        print("movio a la izquierda a: ")
         aux.right = node
+        print("movio a la derecha a  ")
 
         
         self.updateFactor(node)
@@ -140,7 +147,9 @@ class BinaryTree:
     def simpleLeftRotation(self, node: "Node") -> "Node":
         aux = node.right
         node.right = aux.left
+        print("movio a la derecha a: " )
         aux.left = node
+        print("movio a la izquierda a " )
 
         
         self.updateFactor(node)
