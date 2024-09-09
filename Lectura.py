@@ -1,8 +1,10 @@
 import pandas as pd 
-import tkinter as tk
+from BinaryTree import *
+from Node import *
 
 
 df = pd.read_csv("./data/dataset_movies.csv")
+
 
 
 def encontrar(pelicula):
@@ -17,4 +19,22 @@ def encontrar(pelicula):
    print("Pelicula no encontrada")
    return ""
    
-
+def busqueda(año,valor,node,myList):
+  if node is not None: 
+   for index,row in df.iterrows():
+     title = row['Title']
+     year = row['Year']
+     ingresoInternacional = row['Foreign Earnings']
+     domesticP = row['Domestic Percent Earnings']
+     internationalP= row['Foreign Percent Earnings']
+     valor = int(valor)
+     año=int(año)
+     if((node.data.lower()==title.lower()) and (año == year) and (domesticP < internationalP) and (ingresoInternacional>=valor)):
+       myList.append(title)
+   busqueda(año,valor,node.left,myList)
+   busqueda(año,valor,node.right,myList)
+   mostrar(myList)
+ 
+   
+def mostrar(myList):
+  print (myList)
