@@ -2,7 +2,7 @@ import Lectura as le
 import tkinter as tk
 from tkinter import ttk
 import BinaryTree as bt
-import PruebaArbol as pb
+import ElArbol as pb
 
 
 class MainGUI:
@@ -143,10 +143,37 @@ class MainGUI:
         textBox = tk.Entry(searchFrame,width=30,font=("Arial",40))
         textBox.pack(pady = 80)
 
-        rdBut1 = tk.Button(searchFrame,  text = "Buscar en el árbol", font = ("Times New Roman", 25), borderwidth= 20)
-        rdBut2 = tk.Button(searchFrame,  text="Buscar en cartelera", font=("Times New Roman", 25), borderwidth= 20,command= lambda: le.encontrar(textBox.get()))
+        rdBut1 = tk.Button(searchFrame,  text = "Buscar en el árbol", font = ("Times New Roman", 25), borderwidth= 20,command= lambda: le.encontrar(textBox.get()))
+        rdBut2 = tk.Button(searchFrame,  text="Buscar por parametros", font=("Times New Roman", 25), borderwidth= 20, command= self.searchParameter)
         rdBut1.pack(pady = 10)
         rdBut2.pack(pady=10)
+    
+    def searchParameter(self):
+        self.deleteFrames()
+        self.indicate(self.searchLb)
+        searchIndicate = tk.Frame(self.mainFrame, bg="#0BB6E0")
+        searchIndicate.pack()
+
+        lb = tk.Label(searchIndicate, text = "Buscar por parametros", font = ("Helvetica",70, "bold"), bg = "#0BB6E0")
+        lb.pack(pady=80)
+
+        año = tk.Label(searchIndicate, text = "Año", font = ("Helvetica",25, "bold"), bg = "#0BB6E0")
+
+        text1 = tk.Entry(searchIndicate,width=30,font=("Arial",40))
+        text2 = tk.Entry(searchIndicate,width=30, font=("Arial",40))
+        text1.pack()
+        año.pack(pady=30)
+        ingreso = tk.Label(searchIndicate, text = "Ingreso nacionales", font = ("Helvetica",25, "bold"), bg = "#0BB6E0")
+        text2.pack(padx=20)
+        ingreso.pack(pady=30)
+        
+
+        buttonserach = tk.Button(searchIndicate, text="Buscar", font=("Times New Roman", 25), borderwidth= 20, command= lambda: le.busqueda(text1.get(),text2.get(),pb.tree.root,myList=[]))
+        buttonserach.pack(pady=20)
+        
+
+
+        
 
 
 
