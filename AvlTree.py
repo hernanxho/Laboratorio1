@@ -2,6 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from typing import Any, Optional, Tuple
 from tkinter import messagebox
+import Node
 
 class Node:
     def __init__(self, data, parent=None):
@@ -204,7 +205,18 @@ class AVLTree:
         self.recorrido_niveles(node.left,b+1,p,q)
         self.recorrido_niveles(node.right,b+1,p,q)
         
-    
+    def mostrarNiveles(self, root):
+        p = []
+        q = []
+        message = ""
+        if root is None:
+            message = "No hay árbol por recorrer"
+        else:
+            self.recorrido_niveles(root, 0, p, q)
+            for i in range(len(p)):
+                message = message + p[i].data + ", "
+        messagebox.showinfo("Niveles del Árbol", message)
+        
     def familiar(self,data):
         p,pad=self.search(data)
         if(p==None):
@@ -230,7 +242,8 @@ class AVLTree:
         listNiveles=[]
         self.recorrido_niveles(self.root,0,listNodos,listNiveles)
         level=listNiveles[listNodos.index(p)]
-        messagebox.showinfo("Datos","Los datos de -" + p.data + "- son: \nPadre: " + padre + "\nAbuelo: "+ abuelo + "\nTio: " +tio+ "\nNivel: " +str(level) )
+        messagebox.showinfo("Datos","Los datos de -" + p.data + "- son: \nPadre: " 
+                            + padre + "\nAbuelo: "+ abuelo + "\nTio: " +tio+ "\nNivel: " +str(level)+ "\nFactor de balanceo: " +str(self.balance_factor(p)) )
 
     
     

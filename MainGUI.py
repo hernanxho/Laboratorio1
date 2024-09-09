@@ -4,13 +4,15 @@ from tkinter import ttk
 import BinaryTree as bt
 import Node
 import AvlTree as lqs
+from PIL import ImageTk, Image
+from tkinter import PhotoImage
 
 class MainGUI:
     def __init__(self):
 
         self.gui = tk.Tk()
         self.gui.geometry("1500x1000")
-        self.gui.title("EN PROCESO")
+        self.gui.title("AVL SIMULATOR")
 
         self.optionFrame = tk.Frame(self.gui, bg="#0772D6")
         self.optionFrame.pack(side=tk.LEFT)
@@ -81,9 +83,14 @@ class MainGUI:
         self.deleteFrames()
         self.indicate(self.startLb)
         startFrame = tk.Frame(self.mainFrame,bg = "#0BB6E0")
-        lb = tk.Label(startFrame, text = "Main Title",font = ("Helvetica",67, "bold"), bg = "#0BB6E0")
-        lb.pack()
         startFrame.pack(pady=20)
+        lb = tk.Label(startFrame, text = "AVL Makers/Haters",font = ("Impact",67, "bold"), bg = "#0BB6E0")
+        lb.pack()
+        photo = Image.open("data\pixlr-image-generator-8841b930-4fee-4623-9239-bf284689f7d5.png") 
+        imagen = ImageTk.PhotoImage(photo) 
+        imagenlbl = tk.Label(startFrame, image=imagen)
+        imagenlbl.image = imagen
+        imagenlbl.pack()
 
     
     def deleteFrame(self):
@@ -132,9 +139,11 @@ class MainGUI:
 
         rdBut1 = tk.Button(searchFrame,  text = "Buscar en el Árbol", font = ("Times New Roman", 25), borderwidth= 20,command= lambda: lqs.avl_tree.familiar(textBox.get()))
         rdBut2 = tk.Button(searchFrame,  text="Buscar por Parámetros", font=("Times New Roman", 25), borderwidth= 20, command= self.searchParameter)
-        rdBut1.pack(pady = 10)
+        rdBut3 = tk.Button(searchFrame,  text = "Recorrido por Niveles", font = ("Times New Roman", 25), borderwidth= 20,command= lambda: lqs.avl_tree.mostrarNiveles(lqs.avl_tree.root))
+        rdBut1.pack(pady=10)
         rdBut2.pack(pady=10)
-    
+        rdBut3.pack(pady=10)
+
     def searchParameter(self):
         self.deleteFrames()
         self.indicate(self.searchLb)
