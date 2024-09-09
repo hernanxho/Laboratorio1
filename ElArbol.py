@@ -16,6 +16,7 @@ def encontrarNodo(node,data):
       print("pelicula encontrada "+node.data)
      encontrarNodo(node.left,data)
      encontrarNodo(node.right,data)
+    
 
 
 

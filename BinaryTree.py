@@ -1,6 +1,8 @@
 from Node import *
 from typing import Any, Optional, Tuple
 import Lectura as le
+import networkx as nx
+import matplotlib.pyplot as plt
 
 class BinaryTree:
 
@@ -19,26 +21,6 @@ class BinaryTree:
             if p.right is not None:
                 q.append(p.right)
         print()
-    
-    def insert(self, data: Any) -> bool:
-     if(le.encontrar(data)==""):
-         print("Definitivamente no encontrado")
-     else:
-         to_insert = Node(data)
-         if self.root is None:
-             self.root = to_insert
-             return True
-         else:
-            p, pad = self.search(data)
-            if p is not None:
-                return False
-            else:
-                if data < pad.data:
-                    pad.left = to_insert
-                else:
-                    pad.right = to_insert
-                self.balance(self.root,data)
-                return True
 
     def delete(self, data: Any, mode: bool = True) -> bool:
         p, pad = self.search(data)
@@ -103,49 +85,62 @@ class BinaryTree:
          print("No se encontró")
         return p, pad
     
-    def balance(self, node: Optional["Node"], data) -> Optional["Node"]:
+    def insert(self, node: Optional ["Node"], data):
+        if(le.encontrar(data)==""):
+            print("Definitivamente no encontrado")
+        else:
+            to_insert = Node(data)
+            if self.root is None:
+                self.root = to_insert
+                return True
+            else:
+                p, pad = self.search(data)
+                if p is not None:
+                    return False
+                else:
+                    if data < pad.data:
+                        pad.left = to_insert
+                    else:
+                        pad.right = to_insert
+        # Actualizar el factor de balance y balancear el nodo después de la inserción
+            self.updateFactor(node)
+            return self.balance(node, data)
+
+    def balance(self, node, data):
         if node is None:
             return None
 
-        
         nodeBF = node.balanceFactor
 
-       
-        if nodeBF < -1:
-            if data < node.left.data: 
+        # Balanceamos el árbol de acuerdo con el factor de balance
+        if nodeBF < -1:  # Si está desbalanceado hacia la izquierda
+            if data < node.left.data:  # Rotación simple a la derecha
                 return self.simpleRightRotation(node)
-            else:  
+            else:  # Rotación doble izquierda-derecha
                 return self.doubleLeftRightRotation(node)
 
-       
-        if nodeBF > 1:
-            if data > node.right.data:  
+        if nodeBF > 1:  # Si está desbalanceado hacia la derecha
+            if data > node.right.data:  # Rotación simple a la izquierda
                 return self.simpleLeftRotation(node)
-            else:  
+            else:  # Rotación doble derecha-izquierda
                 return self.doubleRightLeftRotation(node)
 
-        return node  
+        return node
 
-    def simpleRightRotation(self, node: "Node") -> "Node":
+    def simpleRightRotation(self, node):
         aux = node.left
         node.left = aux.right
         aux.right = node
-
-        
         self.updateFactor(node)
         self.updateFactor(aux)
-
         return aux
 
-    def simpleLeftRotation(self, node: "Node") -> "Node":
+    def simpleLeftRotation(self, node):
         aux = node.right
         node.right = aux.left
         aux.left = node
-
-        
         self.updateFactor(node)
         self.updateFactor(aux)
-
         return aux
 
     def doubleRightLeftRotation(self, node: "Node") -> "Node":
@@ -177,3 +172,50 @@ class BinaryTree:
         while p.left is not None:
             p, pad = p.left, p
         return p,pad,p.right
+    
+    def uncle (self, node):
+        p,pad = self.search(node)
+        if pad is None:
+            return
+        pad, gf = self.search(pad.data)
+        if gf is None:
+            return None
+        if pad is gf.left:
+            return gf.right
+        else:
+            return gf.left
+
+    def grandfather(self,node):
+        p,pad = self.search(node)
+        if pad is None:
+            return
+        pad, gf = self.search(pad.data)
+        return gf
+
+    def father (self, node):
+        p,pad = self.search(node)
+        return pad
+    
+    def add_edges(self, node, graph, pos=None, x=0, y=0, layer=1):
+        if node is None:
+            return
+        
+        graph.add_node(node.data, pos=(x, y))
+        
+        if node.left is not None:
+            graph.add_edge(node.data, node.left.data)
+            self.add_edges(node.left, graph, x=x - 1 / layer, y=y - 1, layer=layer + 1)
+        
+        if node.right is not None:
+            graph.add_edge(node.data, node.right.data)
+            self.add_edges(node.right, graph, x=x + 1 / layer, y=y - 1, layer=layer + 1)
+
+    def draw_tree(self, root):
+        graph = nx.DiGraph()
+        self.add_edges(root, graph)
+
+        pos = nx.get_node_attributes(graph, 'pos')
+        nx.draw(graph, pos, with_labels=True, node_size=3000, node_color="lightgreen", font_size=15, font_weight="bold", arrows=False)
+        plt.show()
+
+

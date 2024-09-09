@@ -7,3 +7,4 @@ class Node:
         self.balanceFactor =0
         self.left: Optional["Node"] = None
         self.right: Optional["Node"] = None
+        self.parent: Optional["Node"] 
