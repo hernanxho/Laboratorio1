@@ -9,3 +9,4 @@ class Node:
         self.right: Optional["Node"] = None
         self.parent: Optional["Node"] = None
         self.height = 1
+        self.level = None 

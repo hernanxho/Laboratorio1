@@ -133,7 +133,7 @@ class MainGUI:
         searchFrame = tk.Frame(self.mainFrame, bg = "#0BB6E0")
         searchFrame.pack()
 
-        lb = tk.Label(searchFrame, text = "Buscar", font = ("Helvetica",100, "bold"), bg = "#0BB6E0")
+        lb = tk.Label(searchFrame, text = "Buscar", font = ("Helvetica",50, "bold"), bg = "#0BB6E0")
         lb.pack(fill="both", pady = 60)
 
         textBox = tk.Entry(searchFrame,width=30,font=("Arial",40))
@@ -141,7 +141,7 @@ class MainGUI:
 
         rdBut1 = tk.Button(searchFrame,  text = "Buscar en el Árbol", font = ("Times New Roman", 25), borderwidth= 20,command= lambda: lqs.avl_tree.familiar(textBox.get()))
         rdBut2 = tk.Button(searchFrame,  text="Buscar por Parámetros", font=("Times New Roman", 25), borderwidth= 20, command= self.searchParameter)
-        rdBut3 = tk.Button(searchFrame,  text = "Recorrido por Niveles", font = ("Times New Roman", 25), borderwidth= 20,command= lambda: lqs.avl_tree.mostrarNiveles(lqs.avl_tree.root))
+        rdBut3 = tk.Button(searchFrame,  text = "Recorrido por Niveles", font = ("Times New Roman", 25), borderwidth= 20,command= lambda: lqs.avl_tree.recorrido_por_niveles(lqs.avl_tree.root))
         rdBut1.pack(pady=10)
         rdBut2.pack(pady=10)
         rdBut3.pack(pady=10)

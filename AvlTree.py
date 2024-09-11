@@ -116,7 +116,7 @@ class AVLTree:
         node.height = 1 + max(self.height(node.left), self.height(node.right))
         balance = self.balance_factor(node)
 
-        if balance > 1 or balance < -1:
+        if balance > 1 or balance < -1: 
             node = self.rebalance(node)
 
         return node
@@ -186,36 +186,29 @@ class AVLTree:
         p,pad = self.search(node.data)
         return pad
     
-    def recorrido_niveles(self,node: Optional["Node"],b,p,q)->None: #RECORRIDO POR NIVELES
-      if node is not None:
-        if(node == self.root):
-          p.append(node)
-          q.append(b)
-        if(node.left!=None and node.right!=None):
-          p.append(node.left)
-          q.append(b+1)
-          p.append(node.right)
-          q.append(b+1)
-        elif(node.left!=None and node.right==None):
-          p.append(node.left)
-          q.append(b+1)
-        elif(node.right!=None and node.left==None):
-          p.append(node.right)
-          q.append(b+1)
-        self.recorrido_niveles(node.left,b+1,p,q)
-        self.recorrido_niveles(node.right,b+1,p,q)
+    def recorrido_niveles_recursivo(self,node: Optional["Node"],nivel,resultado)->None: #RECORRIDO POR NIVELES
+        if not node:
+            return
         
-    def mostrarNiveles(self, root): #RESULTADO DEL RECORRIDO POR NIVELES
-        p = []
-        q = []
-        message = ""
-        if root is None:
-            message = "No hay árbol por recorrer"
-        else:
-            self.recorrido_niveles(root, 0, p, q)
-            for i in range(len(p)):
-                message = message + p[i].data + ", "
-        messagebox.showinfo("Niveles del Árbol", message)
+        if len(resultado) == nivel:
+            resultado.append([])
+        
+        resultado[nivel].append(node.data)
+
+        self.recorrido_niveles_recursivo(node.left, nivel + 1, resultado)
+        self.recorrido_niveles_recursivo(node.right, nivel + 1, resultado)
+        
+    def recorrido_por_niveles(self, root):
+        resultado = []
+        self.recorrido_niveles_recursivo(root, 0, resultado)
+        q = (resultado)
+        messagebox.showinfo("Recorrido", q)
+        return resultado
+
+
+
+
+    
         
     def familiar(self,data): #CASOS FAMILIARES AL NODO
         p,pad=self.search(data)
